@@ -57,7 +57,7 @@ with patent_col:
 
 
 
-term_col,center_col,word_col = st.columns([1.5,0.5,1])
+term_col,center_col,word_col = st.columns([0.5,1.5,1])
     
 
 with term_col:
@@ -76,7 +76,13 @@ with term_col:
 
     
 with center_col:
-    pass
+    fig = px.line(df_arxiv_term, x="year", y=choice) 
+    fig.add_scatter(x=df_patent_term['year'], y=df_patent_term[choice], mode='lines', name="Patents")
+
+
+    fig.update_layout(title="Dataset Category frequency")
+    # -- Input the Plotly chart to the Streamlit interface
+    st.plotly_chart(fig, use_container_width=False)
 
     
 
