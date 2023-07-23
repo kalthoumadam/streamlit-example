@@ -5,84 +5,73 @@ import pandas as pd
 import streamlit as st
 import plotly.express as px
 
-st.set_page_config(layout="wide")
+# Page setting
+st.set_page_config(layout="wide", page_title="Trends")
 
-# -- Create three columns
-col1, col2, col3 = st.columns([5, 5, 20])
-
-with col3:
-    st.title("Streamlit Demo")
-
-
-year_col, continent_col, log_x_col = st.columns([5, 5, 5])
-with year_col:
-    year_choice = st.slider(
-        "What year would you like to examine?",
-        min_value=1952,
-        max_value=2007,
-        step=5,
-        value=2007,
-    )
-with continent_col:
-    continent_choice = st.selectbox(
-        "What continent would you like to look at?",
-        ("All", "Asia", "Europe", "Africa", "Americas", "Oceania"),
-    )
-with log_x_col:
-    log_x_choice = st.checkbox("Log X Axis?")
+logo="/Users/kalthoumadam/Documents/GitHub/streamlit-example/logo.png"
+head1, head2 = st.columns(2)
+head1.image(logo)
+st.markdown("<h1 style='text-align: center; color: #1697B7;'>Trends Across Academia and Industry</h1>", unsafe_allow_html=True)
 
 # -- Read in the data
-df = px.data.gapminder()
-# -- Apply the year filter given by the user
-filtered_df = df[(df.year == year_choice)]
-# -- Apply the continent filter
-if continent_choice != "All":
-    filtered_df = filtered_df[filtered_df.continent == continent_choice]
+df_submission=pd.read_csv("/Users/kalthoumadam/Documents/GitHub/streamlit-example/data/dashboard_submission_yearly.csv")
+df_arxiv_category = pd.read_csv("/Users/kalthoumadam/Documents/GitHub/streamlit-example/data/dashboard_arxiv_normalized_category_freq.csv")
+df_patent_category = pd.read_csv("/Users/kalthoumadam/Documents/GitHub/streamlit-example/data/dashboard_patent_normalized_category_freq.csv")
+df_arxiv_term = pd.read_csv("/Users/kalthoumadam/Documents/GitHub/streamlit-example/data/dashboard_arxiv_normalized_term_frequency.csv")
+df_patent_term = pd.read_csv("/Users/kalthoumadam/Documents/GitHub/streamlit-example/data/dashboard_patent_normalized_term_freq.csv")
 
-# -- Create the figure in Plotly
-fig = px.scatter(
-    filtered_df,
-    x="gdpPercap",
-    y="lifeExp",
-    size="pop",
-    color="continent",
-    hover_name="country",
-    log_x=log_x_choice,
-    size_max=60,
-)
-fig.update_layout(title="GDP per Capita vs. Life Expectancy")
-# -- Input the Plotly chart to the Streamlit interface
+fig = px.line(df_submission, x="year", y=["arxiv","patent"], color_discrete_map={
+                 "arxiv": "#F3AD78",
+                 "patent": "#30C3CD"})
+fig.update_layout(title="Yearly sumbission for arXiv and patents")
 st.plotly_chart(fig, use_container_width=True)
 
-"""
-# Welcome to Streamlit!
 
-Edit `/streamlit_app.py` to customize this app to your heart's desire :heart:
+arxiv_col, patent_col = st.columns([3, 3])
+with arxiv_col:
+    arxiv_choice = st.selectbox(
+        "Choose Category for frequency over years",
+        ("Computer Science", "Economics", "Electrical Engineering and Systems Science", "Mathematics", "Physics", "Quantitative Biology", "Quantitative Finance", "Statistics"),
+    )
+    fig = px.bar(df_arxiv_category , x="year", y=arxiv_choice)
+    fig.update_layout(title="arXiv Category frequency")
+    # -- Input the Plotly chart to the Streamlit interface
+    st.plotly_chart(fig, use_container_width=False)
 
-If you have any questions, checkout our [documentation](https://docs.streamlit.io) and [community
-forums](https://discuss.streamlit.io).
+with patent_col:
+    patent_choice = st.selectbox(
+        "Choose Category for frequency over years",
+        ("Chemistry; Metallurgy", "Electricity", "Fixed Construction", "General Technology", "Human Necessities", "Mechanical Engineering; Lighting; Heating; Weapons; Blasting", "Performing Operation; Transporting", "Physics","Textiles; Paper"),
+    )
+    fig = px.bar(df_patent_category , x="year", y=patent_choice)
+    fig.update_layout(title="Patent Category frequency")
+    # -- Input the Plotly chart to the Streamlit interface
+    st.plotly_chart(fig, use_container_width=False)
 
-In the meantime, below is an example of what you can do with just a few lines of code:
-"""
+
+arxiv_term_col, patent_term_col = st.columns([3, 3])
+with arxiv_term_col:
+    arxiv_term_choice = st.selectbox(
+        "Choose arXiv Term for frequency over years",
+        ("artificial intelligence", "internet of things", "virtual reality", "quantum computing", "robotics", "cloud computing", "autonomous vehicles", "blockchain","covid-19", "physics","superconductivity"),
+    )
+    fig = px.bar(df_arxiv_term , x="year", y=arxiv_term_choice)
+    fig.update_layout(title="arXiv Term frequency")
+    # -- Input the Plotly chart to the Streamlit interface
+    st.plotly_chart(fig, use_container_width=False)
+
+with patent_term_col:
+    patent_term_choice = st.selectbox(
+        "Choose Patent term for frequency over years",
+        ("artificial intelligence", "internet of things", "virtual reality", "quantum computing", "robotics", "cloud computing", "autonomous vehicles", "blockchain","covid-19", "physics","superconductivity"),
+    )
+    fig = px.bar(df_patent_term , x="year", y=patent_term_choice)
+    fig.update_layout(title="Patent Term frequency")
+    # -- Input the Plotly chart to the Streamlit interface
+    st.plotly_chart(fig, use_container_width=False)
 
 
-with st.echo(code_location='below'):
-    total_points = st.slider("Number of points in spiral", 1, 5000, 2000)
-    num_turns = st.slider("Number of turns in spiral", 1, 100, 9)
 
-    Point = namedtuple('Point', 'x y')
-    data = []
 
-    points_per_turn = total_points / num_turns
+    
 
-    for curr_point_num in range(total_points):
-        curr_turn, i = divmod(curr_point_num, points_per_turn)
-        angle = (curr_turn + 1) * 2 * math.pi * i / points_per_turn
-        radius = curr_point_num / total_points
-        x = radius * math.cos(angle)
-        y = radius * math.sin(angle)
-        data.append(Point(x, y))
-
-    st.altair_chart(alt.Chart(pd.DataFrame(data), height=500, width=500)
-        .mark_circle(color='#0068c9', opacity=0.5)
-        .encode(x='x:Q', y='y:Q'))
