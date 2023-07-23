@@ -65,17 +65,19 @@ with term_col:
         "Choose a Term for frequency over years",
         ("artificial intelligence", "internet of things", "virtual reality", "quantum computing", "robotics", "cloud computing", "autonomous vehicles", "blockchain","covid-19", "physics","superconductivity"),
     )
-    fig = px.line(df_arxiv_term, x="year", y=choice) 
-    fig.add_scatter(x=df_patent_term['year'], y=df_patent_term[choice], mode='lines', name="Patents")
+    
 
 
-    fig.update_layout(title="Dataset Category frequency")
-    # -- Input the Plotly chart to the Streamlit interface
-    st.plotly_chart(fig, use_container_width=False)
+    
 
 
     
 with center_col:
+    fig = px.line(df_arxiv_term, x="year", y=choice) 
+    fig.add_scatter(x=df_patent_term['year'], y=df_patent_term[choice], mode='lines', name="Patents")
+    fig.update_layout(title="Dataset Category frequency")
+    # -- Input the Plotly chart to the Streamlit interface
+    st.plotly_chart(fig, use_container_width=False)
     fig = px.line(df_arxiv_term, x="year", y=choice) 
     fig.add_scatter(x=df_patent_term['year'], y=df_patent_term[choice], mode='lines', name="Patents")
 
