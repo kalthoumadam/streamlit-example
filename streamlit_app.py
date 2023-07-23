@@ -14,7 +14,7 @@ head1.image(logo)
 st.markdown("<h1 style='text-align: center; color: #1697B7;'>Trends Across Academia and Industry</h1>", unsafe_allow_html=True)
 
 # -- Read in the data
-df_submission=pd.read_csv("https://github.com/kalthoumadam/streamlit-example/blob/master/data/dashboard_submission_yearly.csv")
+df_submission=pd.read_csv("https://raw.githubusercontent.com/kalthoumadam/streamlit-example/blob/master/data/dashboard_submission_yearly.csv")
 df_arxiv_category = pd.read_csv("streamlit-example/data/dashboard_arxiv_normalized_category_freq.csv")
 df_patent_category = pd.read_csv("streamlit-example/data/dashboard_patent_normalized_category_freq.csv")
 df_arxiv_term = pd.read_csv("/streamlit-exampledata/dashboard_arxiv_normalized_term_frequency.csv")
