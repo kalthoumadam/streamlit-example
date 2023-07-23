@@ -8,19 +8,19 @@ import plotly.express as px
 # Page setting
 st.set_page_config(layout="wide", page_title="Trends")
 
-with open('/Users/kalthoumadam/Documents/GitHub/streamlit-example/style.css') as f:
+with open('style.css') as f:
   st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
 #logo image
-logo="/Users/kalthoumadam/Documents/GitHub/streamlit-example/wordcloud.png"
+logo="wordcloud.png"
 color_arxiv='red'
 color_patent='blue'
 # -- Read in the data
-df_submission=pd.read_csv("/Users/kalthoumadam/Documents/GitHub/streamlit-example/dashboard_submission_yearly.csv")
-df_arxiv_category = pd.read_csv("/Users/kalthoumadam/Documents/GitHub/streamlit-example/dashboard_arxiv_normalized_category_freq.csv")
-df_patent_category = pd.read_csv("/Users/kalthoumadam/Documents/GitHub/streamlit-example/dashboard_patent_normalized_category_freq.csv")
-df_arxiv_term = pd.read_csv("/Users/kalthoumadam/Documents/GitHub/streamlit-example/dashboard_arxiv_normalized_term_frequency.csv")
-df_patent_term = pd.read_csv("/Users/kalthoumadam/Documents/GitHub/streamlit-example/dashboard_patent_normalized_term_freq.csv")
+df_submission=pd.read_csv("dashboard_submission_yearly.csv")
+df_arxiv_category = pd.read_csv("dashboard_arxiv_normalized_category_freq.csv")
+df_patent_category = pd.read_csv("dashboard_patent_normalized_category_freq.csv")
+df_arxiv_term = pd.read_csv("dashboard_arxiv_normalized_term_frequency.csv")
+df_patent_term = pd.read_csv("dashboard_patent_normalized_term_freq.csv")
 
 st.markdown("<h1 style='text-align: center; color: '#F3F3F3';'>Trending topics across Academia and Industry</h1>", unsafe_allow_html=True)
 
