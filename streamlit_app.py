@@ -6,7 +6,7 @@ import streamlit as st
 import plotly.express as px
 
 # Page setting
-st.set_page_config(layout="wide", page_title="Trends")
+st.set_page_config(layout="wide",height=600, page_title="Trends")
 
 logo="logo.png"
 head1, head2 = st.columns(2)
