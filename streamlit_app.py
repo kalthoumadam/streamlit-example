@@ -27,9 +27,7 @@ st.markdown("<h1 style='text-align: center; color: '#F3F3F3';'>Trending topics a
 
 yearly_submission, arxiv_col, patent_col= st.columns([1,1,1])
 with yearly_submission:
-    fig = px.line(df_submission, x="year", y=["arxiv","patent"], color_discrete_map={
-                 "arxiv": "#F3AD78",
-                 "patent": "#30C3CD"}, labels={'Year', 'Number of sumbission'})
+    fig = px.line(df_submission, x="year", y=["arxiv","patent"], labels={'Year', 'Number of sumbission'})
     fig.update_layout(title="Yearly sumbission for arXiv and patents")
     st.plotly_chart(fig, use_container_width=True)
 
