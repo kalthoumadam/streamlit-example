@@ -56,7 +56,8 @@ with patent_col:
 
 
 
-term_col,center_col,word_col = st.columns([1,1.5,1])
+
+term_col,center_col,word_col = st.columns([1.5,0.5,1])
     
 
 with term_col:
@@ -64,22 +65,20 @@ with term_col:
         "Choose a Term for frequency over years",
         ("artificial intelligence", "internet of things", "virtual reality", "quantum computing", "robotics", "cloud computing", "autonomous vehicles", "blockchain","covid-19", "physics","superconductivity"),
     )
-    options=['ArXiv', 'Patents']
-    option=st.radio('Choose the dataset to display Term frequency', options)
-    if option == 'ArXiv':
-        data=df_arxiv_term
-        choice_color=color_arxiv
-    else:
-        data=df_patent_term
-        choice_color=color_patent
-    
-   
+    fig = px.line(df_arxiv_term, x="year", y=choice) 
+    fig.add_scatter(x=df_patent_term['year'], y=df_patent_term[choice], mode='lines', name="Patents")
 
-with center_col:
-    fig = px.bar(data, x="year", y=choice, color_discrete_map={choice : choice_color})
+
     fig.update_layout(title="Dataset Category frequency")
     # -- Input the Plotly chart to the Streamlit interface
     st.plotly_chart(fig, use_container_width=False)
+
+
+    
+with center_col:
+    pass
+
+    
 
 word_col.image(logo)
 
